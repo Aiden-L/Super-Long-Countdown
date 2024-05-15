@@ -1,0 +1,7 @@
+# ignore IDE
+.idea/
+
+# ignore build folder
+.build/
+.dist/
+*.spec
