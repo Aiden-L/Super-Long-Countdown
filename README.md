@@ -7,6 +7,11 @@ This is a widget that provides a countdown for as long as you want.
 
 倒计时进度可以保存，下次打开还可以继续计时
 
+#### 打包指南
+```shell
+pyinstaller -F -w clock.py
+```
+
 #### 当前功能更新：
 
 - 未暂停直接关闭也可以自动保存计时进度
