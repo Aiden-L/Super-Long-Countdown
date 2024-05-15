@@ -5,3 +5,6 @@
 .build/
 .dist/
 *.spec
+
+# ignore docs
+Refs.md
