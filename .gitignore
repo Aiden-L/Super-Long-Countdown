@@ -5,8 +5,8 @@
 clock_config.json
 
 # ignore build folder
-.build/
-.dist/
+build/
+dist/
 *.spec
 
 # ignore docs
