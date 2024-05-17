@@ -11,6 +11,9 @@ This is a widget that provides a countdown for as long as you want.
 ```shell
 pyinstaller -F -w clock.py
 ```
+```shell
+pyinstaller -F -w clock.py -i favicon.ico
+```
 
 #### 当前功能更新：
 
