@@ -9,7 +9,7 @@ file_path = "clock_config.json"
 
 root = tk.Tk()
 root.geometry("300x160")  # 设置客户端大小
-# root.resizable(0, 0)  # 设置客户端大小不可变
+root.resizable(0, 0)  # 设置客户端大小不可变
 root.title("Python 倒计时")  # 设置客户端标题
 main_frame = tk.Frame(root)
 main_frame.pack(anchor='center')
@@ -26,17 +26,24 @@ else:
         "log": []
     }
 
+# 更新时间显示
 def update_label(label_time_left):
-    begin_hours, begin_remainder = divmod(label_time_left, 3600)
-    begin_minutes, begin_seconds = divmod(begin_remainder, 60)
-    time_label.config(text='{:d}:{:02d}:{:02d}'.format(begin_hours, begin_minutes, begin_seconds))
+    if label_time_left < 0:
+        label_time_left = -label_time_left
+        begin_hours, begin_remainder = divmod(label_time_left, 3600)
+        begin_minutes, begin_seconds = divmod(begin_remainder, 60)
+        time_label.config(text='-{:d}:{:02d}:{:02d}'.format(begin_hours, begin_minutes, begin_seconds))
+    else:
+        begin_hours, begin_remainder = divmod(label_time_left, 3600)
+        begin_minutes, begin_seconds = divmod(begin_remainder, 60)
+        time_label.config(text='{:d}:{:02d}:{:02d}'.format(begin_hours, begin_minutes, begin_seconds))
 
 # 时间显示Label
 time_label = tk.Label(main_frame, font=('calibri', 40, 'bold'), pady=20, foreground='#FF7F00')
 update_label(time_info["time_left"])
 time_label.grid(column=0, row=0, columnspan=3)
 
-
+# 时间更新主逻辑
 def time_counter():
     global counter_timer
     global current_time_left
@@ -77,7 +84,7 @@ def func_restart():
                 break
             try:
                 time_h, time_m, time_s = input_time.split(":")
-                if int(time_h) >= 0 and 60 > int(time_m) >= 0 and 60 > int(time_s) >= 0:
+                if 60 > int(time_m) >= 0 and 60 > int(time_s) >= 0:
                     time_info["time_left"] = int(time_h) * 3600 + int(time_m) * 60 + int(time_s)
                     update_label(time_info["time_left"])
                     break
