@@ -3,6 +3,7 @@ import os
 import tkinter as tk
 import time
 from tkinter import simpledialog
+from tkinter.messagebox import showerror
 
 file_path = "clock_config.json"
 
@@ -18,35 +19,34 @@ time_info = {}
 if os.path.exists(file_path):
     time_info = json.load(open(file_path))
 else:
-    # 倒计时时间
-    input_time = simpledialog.askstring(title='初始化', prompt='请输入倒计时的时间，如 300:00:00')
-    time_h, time_m, time_s = input_time.split(":")
+    time_h, time_m, time_s = 299, 59, 59
     total_seconds = int(time_h) * 3600 + int(time_m) * 60 + int(time_s)
     time_info = {
         "time_left": total_seconds,
         "log": []
     }
 
+def update_label(label_time_left):
+    begin_hours, begin_remainder = divmod(label_time_left, 3600)
+    begin_minutes, begin_seconds = divmod(begin_remainder, 60)
+    time_label.config(text='{:d}:{:02d}:{:02d}'.format(begin_hours, begin_minutes, begin_seconds))
 
 # 时间显示Label
 time_label = tk.Label(main_frame, font=('calibri', 40, 'bold'), pady=20, foreground='#FF7F00')
-begin_hours, begin_remainder = divmod(time_info["time_left"], 3600)
-begin_minutes, begin_seconds = divmod(begin_remainder, 60)
-time_label.config(text='{:d}:{:02d}:{:02d}'.format(begin_hours, begin_minutes, begin_seconds))
-time_label.grid(column=0, row=0, columnspan=2)
+update_label(time_info["time_left"])
+time_label.grid(column=0, row=0, columnspan=3)
 
 
 def time_counter():
     global counter_timer
     global current_time_left
     current_time_left = time_info["time_left"] - int(time.time() - begin_time)
-    hours, remainder = divmod(current_time_left, 3600)
-    minutes, seconds = divmod(remainder, 60)
-    time_label.config(text='{:d}:{:02d}:{:02d}'.format(hours, minutes, seconds))
+    update_label(current_time_left)
     counter_timer = time_label.after(100, time_counter)  # 1000ms后再次调用time()函数，即1s后刷新显示
 
 lock = True
-# 按钮控件
+
+# 开始按钮的功能
 def func_begin():
     global lock
     if lock:
@@ -57,8 +57,7 @@ def func_begin():
         # 运行时间更新函数
         time_counter()
 
-btn1 = tk.Button(main_frame, text="开始", command=func_begin)
-
+# 暂停按钮的功能
 def func_pause():
     global lock
     if not lock:
@@ -67,6 +66,27 @@ def func_pause():
         time_label.after_cancel(counter_timer)
         func_record()
 
+# 重置按钮的功能
+def func_restart():
+    global lock
+    if lock:
+        print("重置按钮被点击")
+        while(True):
+            input_time = simpledialog.askstring(title='初始化', prompt='请输入倒计时的时间，如 300:00:00')
+            if not input_time:
+                break
+            try:
+                time_h, time_m, time_s = input_time.split(":")
+                if int(time_h) >= 0 and 60 > int(time_m) >= 0 and 60 > int(time_s) >= 0:
+                    time_info["time_left"] = int(time_h) * 3600 + int(time_m) * 60 + int(time_s)
+                    update_label(time_info["time_left"])
+                    break
+                else:
+                    showerror('错误', '输入值不符合规则，请重新输入')
+            except Exception:
+                showerror('错误', '输入值不符合规则，请重新输入')
+
+# 写记录
 def func_record():
     time_info["log"].append([begin_time, time.time(), current_time_left])
     time_info["time_left"] = current_time_left
@@ -74,11 +94,13 @@ def func_record():
         f.write(json.dumps(time_info))
     print("进度已保存")
 
-
+btn1 = tk.Button(main_frame, text="开始", command=func_begin)
 btn2 = tk.Button(main_frame, text="暂停", command=func_pause)
+btn3 = tk.Button(main_frame, text="重置", command=func_restart)
 
 btn1.grid(column=0, row=1)
 btn2.grid(column=1, row=1)
+btn3.grid(column=2, row=1)
 
 def on_closing():
     try:
@@ -89,6 +111,3 @@ def on_closing():
 
 root.protocol("WM_DELETE_WINDOW", on_closing)
 root.mainloop()
-
-
-
