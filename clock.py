@@ -1,17 +1,26 @@
+import base64
 import json
 import os
 import pathlib
 import tkinter as tk
 import time
+from icon import img
 from tkinter import simpledialog
 from tkinter.messagebox import showerror
 
 file_path = os.path.join(pathlib.Path.home(), 'AppData\Local\clock_config.json')
 
 root = tk.Tk()
+
+# 设置图标
+with open("tmp.ico", "wb+") as tmp:
+    tmp.write(base64.b64decode(img))
+root.iconbitmap("tmp.ico")
+os.remove("tmp.ico")
+
 root.geometry("300x160")  # 设置客户端大小
 root.resizable(0, 0)  # 设置客户端大小不可变
-root.title("Python 倒计时")  # 设置客户端标题
+root.title("Super Long Countdown")  # 设置客户端标题
 main_frame = tk.Frame(root)
 main_frame.pack(anchor='center')
 
