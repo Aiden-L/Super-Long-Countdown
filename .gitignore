@@ -11,3 +11,4 @@ dist/
 
 # ignore docs
 Refs.md
+test.py
