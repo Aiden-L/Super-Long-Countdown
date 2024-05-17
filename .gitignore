@@ -1,6 +1,9 @@
 # ignore IDE
 .idea/
 
+# ignore generated files
+clock_config.json
+
 # ignore build folder
 .build/
 .dist/
