@@ -4,13 +4,18 @@ import os
 import pathlib
 import tkinter as tk
 import time
+
+from ttkbootstrap import Style
 from icon import img
 from tkinter import simpledialog
 from tkinter.messagebox import showerror
 
 file_path = os.path.join(pathlib.Path.home(), 'AppData\Local\clock_config.json')
 
-root = tk.Tk()
+# root = tk.Tk()
+# 设置主题 ['solar', 'minty', 'litera', 'pulse', 'lumen', 'yeti', 'superhero']
+style = Style(theme='solar')
+root = style.master
 
 # 设置图标
 with open("jMWFRdx2iLDfvc0crBee_tmp.ico", "wb+") as tmp:
@@ -18,7 +23,7 @@ with open("jMWFRdx2iLDfvc0crBee_tmp.ico", "wb+") as tmp:
 root.iconbitmap("jMWFRdx2iLDfvc0crBee_tmp.ico")
 os.remove("jMWFRdx2iLDfvc0crBee_tmp.ico")
 
-root.geometry("300x160")  # 设置客户端大小
+root.geometry("300x170")  # 设置客户端大小
 root.resizable(0, 0)  # 设置客户端大小不可变
 root.title("Super Long Countdown")  # 设置客户端标题
 main_frame = tk.Frame(root)
@@ -95,7 +100,7 @@ def func_restart():
     if lock:
         print("重置按钮被点击")
         while (True):
-            input_time = simpledialog.askstring(title='初始化', prompt='请输入倒计时的时间，如 300:00:00')
+            input_time = simpledialog.askstring(title='重置计时', prompt='请输入倒计时的时间，如 300:00:00')
             if not input_time:
                 break
             try:
@@ -119,9 +124,9 @@ def func_record():
     print("进度已保存")
 
 
-btn1 = tk.Button(main_frame, text="开始", command=func_begin)
-btn2 = tk.Button(main_frame, text="暂停", command=func_pause)
-btn3 = tk.Button(main_frame, text="重置", command=func_restart)
+btn1 = tk.Button(main_frame, text="开始", padx=8, pady=5, command=func_begin)
+btn2 = tk.Button(main_frame, text="暂停", padx=8, pady=5, command=func_pause)
+btn3 = tk.Button(main_frame, text="重置", padx=8, pady=5, command=func_restart)
 
 btn1.grid(column=0, row=1)
 btn2.grid(column=1, row=1)
