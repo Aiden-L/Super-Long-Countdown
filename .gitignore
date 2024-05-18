@@ -5,6 +5,7 @@
 clock_config.json
 
 # ignore build folder
+resources/
 build/
 dist/
 *.spec
