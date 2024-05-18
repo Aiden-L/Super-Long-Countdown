@@ -13,10 +13,10 @@ file_path = os.path.join(pathlib.Path.home(), 'AppData\Local\clock_config.json')
 root = tk.Tk()
 
 # 设置图标
-with open("tmp.ico", "wb+") as tmp:
+with open("jMWFRdx2iLDfvc0crBee_tmp.ico", "wb+") as tmp:
     tmp.write(base64.b64decode(img))
-root.iconbitmap("tmp.ico")
-os.remove("tmp.ico")
+root.iconbitmap("jMWFRdx2iLDfvc0crBee_tmp.ico")
+os.remove("jMWFRdx2iLDfvc0crBee_tmp.ico")
 
 root.geometry("300x160")  # 设置客户端大小
 root.resizable(0, 0)  # 设置客户端大小不可变

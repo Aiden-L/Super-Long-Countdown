@@ -27,3 +27,4 @@ pyinstaller -F -w clock.py -i favicon.ico
 - 修复了重置窗口处于主窗口下方的问题
 - 修复超时时间显示不正确的问题
 - ###### Version 1.0.0
+- 修复了应用内图标不清晰的问题
