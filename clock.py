@@ -5,17 +5,17 @@ import pathlib
 import tkinter as tk
 import time
 
-from ttkbootstrap import Style
+# from ttkbootstrap import Style
 from icon import img
 from tkinter import simpledialog
 from tkinter.messagebox import showerror
 
 file_path = os.path.join(pathlib.Path.home(), 'AppData\Local\clock_config.json')
 
-# root = tk.Tk()
+root = tk.Tk()
 # 设置主题 ['solar', 'minty', 'litera', 'pulse', 'lumen', 'yeti', 'superhero']
-style = Style(theme='solar')
-root = style.master
+# style = Style(theme='solar')
+# root = style.master
 
 # 设置图标
 with open("jMWFRdx2iLDfvc0crBee_tmp.ico", "wb+") as tmp:
