@@ -79,26 +79,39 @@ time_label = tk.Label(main_frame, font=('calibri', 40, 'bold'), pady=20, fg=conf
 update_label(config_info["time_left"])
 time_label.grid(column=0, row=0, columnspan=3)
 
+# 脉冲
+pause = 0
 
 # 时间更新主逻辑
 def time_counter():
     global counter_timer
     global current_time_left
-    current_time_left = config_info["time_left"] - int(time.time() - begin_time)
+    global pause
+    if pause > 100:
+        pause = 0
+        # 每10秒自动保存
+        func_record_update()
+    else:
+        pause = pause + 1
+    current_time_left = begin_time_left - int(time.time() - begin_time)
     update_label(current_time_left)
-    counter_timer = time_label.after(100, time_counter)  # 1000ms后再次调用time()函数，即1s后刷新显示
+    counter_timer = time_label.after(100, time_counter)  # 100ms后再次调用time()函数，即0.1s后刷新显示
 
-
+# 是否处于暂停状态
 lock = True
-
+update_lock = False
 
 # 开始按钮的功能
 def func_begin():
     global lock
+    global update_lock
+    update_lock = False
     if lock:
         lock = False
         global begin_time
+        global begin_time_left
         begin_time = time.time()
+        begin_time_left = config_info["time_left"]
         print("开始按钮被点击")
         # 运行时间更新函数
         time_counter()
@@ -111,12 +124,11 @@ def func_pause():
         lock = True
         print("暂停按钮被点击")
         time_label.after_cancel(counter_timer)
-        func_record()
+        func_record_update()
 
 
 # 重置按钮的功能
 def func_restart():
-    global lock
     if lock:
         print("重置按钮被点击")
         while (True):
@@ -136,12 +148,17 @@ def func_restart():
 
 
 # 写记录
-def func_record():
+def func_record_update():
+    global update_lock
+    if update_lock:
+        config_info["log"].pop()
+    else:
+        update_lock = True
     config_info["log"].append([begin_time, time.time(), current_time_left])
     config_info["time_left"] = current_time_left
     with open(file_path, "w") as f:
         f.write(json.dumps(config_info))
-    print("进度已保存")
+    print("进度已更新")
 
 font_color = config_info['ui_configs']['font_color']
 btn_color = config_info['ui_configs']['btn_color']
@@ -157,11 +174,11 @@ btn3.grid(column=2, row=1)
 
 def on_closing():
     try:
-        func_record()
+        if not lock:
+            func_record_update()
     except Exception:
         pass
     root.destroy()
-
 
 root.protocol("WM_DELETE_WINDOW", on_closing)
 root.mainloop()
