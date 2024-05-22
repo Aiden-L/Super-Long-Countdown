@@ -1,14 +1,14 @@
-# 这是一个采用自定义色环的尝试
+import json
+import os
+import pathlib
+
 import matplotlib.pyplot as plt
 import datetime
 
-# 设置字体为Microsoft YaHei
-plt.rcParams['font.family'] = 'Microsoft YaHei'
-
-# 输入数据
+# 测试数据
 data = [
-    [1715727600, 1715734800],
-    [1715738400, 1715752800],
+    [1715727600, 1715746320],
+    [1715748000, 1715752800],
     [1715760000, 1715785200],
     [1715814000, 1715857200],
     [1715911200, 1715943600],
@@ -20,6 +20,20 @@ data = [
     [1716246000, 1716264000],
     [1716271200, 1716282000]
 ]
+
+# 读取配置文件中存放的数据
+file_path = os.path.join(pathlib.Path.home(), 'AppData\Local\clock_config.json')
+if os.path.exists(file_path):
+    config_info = json.load(open(file_path))
+    data = config_info['log']
+    for i in data:
+        i.pop()
+    print(data)
+else:
+    print("数据不存在，打印的为预览图")
+
+# 设置字体为Microsoft YaHei
+plt.rcParams['font.family'] = 'Microsoft YaHei'
 
 # 将时间戳转换为日期和时间
 converted_data = [(datetime.datetime.fromtimestamp(start), datetime.datetime.fromtimestamp(end)) for start, end in data]
