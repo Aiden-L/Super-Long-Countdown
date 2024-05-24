@@ -46,8 +46,8 @@ with open("jMWFRdx2iLDfvc0crBee_tmp.ico", "wb+") as tmp:
 root.iconbitmap("jMWFRdx2iLDfvc0crBee_tmp.ico")
 os.remove("jMWFRdx2iLDfvc0crBee_tmp.ico")
 
-root.geometry("300x170")  # 设置客户端大小
-root.resizable(False, False)  # 设置客户端大小不可变
+root.geometry("300x180")  # 设置客户端大小
+root.resizable(True, False)  # 设置客户端大小不可变
 root.title("Super Long Countdown")  # 设置客户端标题
 root.configure(bg=config_info['ui_configs']['bg_color'])
 
@@ -67,17 +67,27 @@ def update_label(label_time_left):
         label_time_left = -label_time_left
         begin_hours, begin_remainder = divmod(label_time_left, 3600)
         begin_minutes, begin_seconds = divmod(begin_remainder, 60)
-        time_label.config(text='-{:d}:{:02d}:{:02d}'.format(begin_hours, begin_minutes, begin_seconds))
+        time_label.config(text='+{:02d}:{:02d}:{:02d}'.format(begin_hours, begin_minutes, begin_seconds))
     else:
         begin_hours, begin_remainder = divmod(label_time_left, 3600)
         begin_minutes, begin_seconds = divmod(begin_remainder, 60)
-        time_label.config(text='{:d}:{:02d}:{:02d}'.format(begin_hours, begin_minutes, begin_seconds))
+        time_label.config(text='{:02d}:{:02d}:{:02d}'.format(begin_hours, begin_minutes, begin_seconds))
+
+def update_cul_label(cul_begin_time):
+    begin_hours, begin_remainder = divmod(int(time.time() - cul_begin_time), 3600)
+    begin_minutes, begin_seconds = divmod(begin_remainder, 60)
+    cul_time_label.config(text='{:02d}:{:02d}:{:02d}'.format(begin_hours, begin_minutes, begin_seconds))
 
 
 # 时间显示Label
-time_label = tk.Label(main_frame, font=('calibri', 40, 'bold'), pady=20, fg=config_info['ui_configs']['font_color'], bg=config_info['ui_configs']['bg_color'])
+time_label = tk.Label(main_frame, font=('calibri', 40, 'bold'), pady=4, fg=config_info['ui_configs']['font_color'], bg=config_info['ui_configs']['bg_color'])
 update_label(config_info["time_left"])
 time_label.grid(column=0, row=0, columnspan=3)
+
+# 单段计时Label
+cul_time_label = tk.Label(main_frame, font=('calibri', 20, 'bold'), fg=config_info['ui_configs']['font_color'], bg=config_info['ui_configs']['bg_color'])
+cul_time_label.config(text='00:00:00')
+cul_time_label.grid(column=0, row=1, columnspan=3)
 
 # 脉冲
 pause = 0
@@ -95,6 +105,7 @@ def time_counter():
         pause = pause + 1
     current_time_left = begin_time_left - int(time.time() - begin_time)
     update_label(current_time_left)
+    update_cul_label(begin_time)
     counter_timer = time_label.after(100, time_counter)  # 100ms后再次调用time()函数，即0.1s后刷新显示
 
 # 是否处于暂停状态
@@ -167,9 +178,9 @@ btn1 = tk.Button(main_frame, text="开始", padx=8, pady=5, command=func_begin, 
 btn2 = tk.Button(main_frame, text="暂停", padx=8, pady=5, command=func_pause, fg=font_color, bg=btn_color)
 btn3 = tk.Button(main_frame, text="重置", padx=8, pady=5, command=func_restart, fg=font_color, bg=btn_color)
 
-btn1.grid(column=0, row=1)
-btn2.grid(column=1, row=1)
-btn3.grid(column=2, row=1)
+btn1.grid(column=0, row=2, pady=8)
+btn2.grid(column=1, row=2, pady=8)
+btn3.grid(column=2, row=2, pady=8)
 
 
 def on_closing():

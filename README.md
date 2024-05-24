@@ -13,6 +13,9 @@ This is a widget that provides a countdown for as long as you want.
 pyinstaller -F -w clock.py
 ```
 ```shell
+pyinstaller --onefile clock.py -i favicon.ico
+```
+```shell
 pyinstaller -F -w clock.py -i favicon.ico
 ```
 
@@ -59,3 +62,7 @@ python data_analyzer/plot_pro.py
 - 配色，窗口置顶可以通过配置文件修改
 - 修复了关机无法触发自动保存，损失大量进度的问题（每10秒自动更新存储）
 - 修复了暂停后关闭会触发两次保存的问题
+- ###### Version 1.0.3
+- 新增单次计时功能
+- 超出时间不再以 "-" 表示，改为以 "+" 表示
+- 时间格式化为 "00:00:00"
