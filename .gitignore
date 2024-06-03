@@ -9,7 +9,6 @@ resources/
 build/
 dist/
 *.spec
-favicon.ico
 favicon2.ico
 
 # ignore docs

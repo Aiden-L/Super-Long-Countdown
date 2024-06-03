@@ -1,7 +1,6 @@
 import base64
 import json
 import os
-import pathlib
 import tkinter as tk
 import time
 
@@ -9,7 +8,7 @@ from icon import img
 from tkinter import simpledialog
 from tkinter.messagebox import showerror
 
-file_path = os.path.join(pathlib.Path.home(), 'AppData\Local\clock_config.json')
+file_path = os.path.join(os.path.expanduser('~'), 'AppData\Local\clock_config.json')
 
 default_ui_configs = {
     'bg_color': '#ffffff',
