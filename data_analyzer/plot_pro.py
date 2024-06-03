@@ -1,6 +1,5 @@
 import json
 import os
-import pathlib
 
 import matplotlib.pyplot as plt
 import datetime
@@ -22,7 +21,7 @@ data = [
 ]
 
 # 读取配置文件中存放的数据
-file_path = os.path.join(pathlib.Path.home(), 'AppData\Local\clock_config.json')
+file_path = os.path.join(os.path.expanduser('~'), 'AppData\Local\clock_config.json')
 if os.path.exists(file_path):
     config_info = json.load(open(file_path))
     data = config_info['log']
