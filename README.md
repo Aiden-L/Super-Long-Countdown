@@ -10,9 +10,6 @@ This is a widget that provides a countdown for as long as you want.
 #### 打包指南
 
 ```shell
-pyinstaller -F -w clock.py
-```
-```shell
 pyinstaller -F -w clock.py -i favicon.ico
 ```
 
@@ -36,6 +33,21 @@ python data_analyzer/plot_pro.py
     <img src="data_analyzer/myplot.png" style="width:600px">
 </div> 
 
+#### 便捷脚本
+当使用 `git clone` 下载本项目后，可使用便捷脚本启动相应的功能，不需要打包
+
+使用前，需要先安装依赖
+```shell
+pip install -r requirements.txt
+```
+
+查看自己的 Anaconda 的安装路径，如果是默认安装（安装位置在`%HOMEPATH%\anaconda3`，`%HOMEPATH%`通常为`C:\Users\[用户名]\` 文件夹）
+则不需要修改脚本，否则需要先修改脚本到conda安装路径
+
+双击可运行相应的脚本，使用程序
+- clock 主程序 → clock.bat
+- 生成工作时常分布图 → chart.bat
+- 软件更新 → update.bat
 
 #### 当前功能更新：
 
@@ -45,6 +57,7 @@ python data_analyzer/plot_pro.py
 - 配色，透明度，窗口置顶可以通过配置文件修改
 - 通过脚本（详见运行指南）可以分析计时器记录的时间段，并生成可视化的工作时间分布图
 - 计时器可以显示当前工作段时长
+- 新增快捷启动脚本，使程序在不打包的状态下也可以工作
 
 #### 当前bug修复&版本进度：
 
